@@ -14,7 +14,6 @@
 
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -25,14 +24,35 @@ struct Team {
     goals_conceded: u8,
 }
 
+fn populate_scores_table(
+    scores: &mut HashMap<String, Team>,
+    team1: Team,
+    team2: Team,
+) -> () {
+    scores.entry(team1.name.clone()).and_modify(
+        |e| {
+            e.goals_scored += team1.goals_scored;
+            e.goals_conceded += team1.goals_conceded;
+        }
+    ).or_insert(team1);
+    scores.entry(team2.name.clone()).and_modify(
+        |e| {
+            e.goals_scored += team2.goals_scored;
+            e.goals_conceded += team2.goals_conceded;
+        }
+    ).or_insert(team2);
+}
+
 fn build_scores_table(results: String) -> HashMap<String, Team> {
     // The name of the team is the key and its associated struct is the value.
     let mut scores: HashMap<String, Team> = HashMap::new();
 
+    // Note: lines() is an iterator over the string lines
+    //       split on \n or \r\n
     for r in results.lines() {
-        let v: Vec<&str> = r.split(',').collect();
+        let v: Vec<&str> = r.split(',').collect(); // Q: what does collect() do?
         let team_1_name = v[0].to_string();
-        let team_1_score: u8 = v[2].parse().unwrap();
+        let team_1_score: u8 = v[2].parse().unwrap(); // Q: what does unwrap() do?
         let team_2_name = v[1].to_string();
         let team_2_score: u8 = v[3].parse().unwrap();
         // TODO: Populate the scores table with details extracted from the
@@ -40,6 +60,19 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        populate_scores_table(
+            &mut scores,
+            Team {
+                name: team_1_name,
+                goals_scored: team_1_score,
+                goals_conceded: team_2_score,
+            },
+            Team {
+                name: team_2_name,
+                goals_scored: team_2_score,
+                goals_conceded: team_1_score,
+            }
+        );
     }
     scores
 }

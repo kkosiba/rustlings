@@ -23,8 +23,6 @@ enum IntoColorError {
     IntConversion,
 }
 
-// I AM NOT DONE
-
 // Your task is to complete this implementation
 // and return an Ok result of inner type Color.
 // You need to create an implementation for a tuple of three integers,
@@ -38,6 +36,21 @@ enum IntoColorError {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        let valid_range = 0..=255;
+        match tuple {
+            (a, b, c)
+                if valid_range.contains(&a)
+                    && valid_range.contains(&b)
+                    && valid_range.contains(&c) =>
+            {
+                Ok(Color {
+                    red: a as u8,
+                    green: b as u8,
+                    blue: c as u8,
+                })
+            }
+            _ => return Err(IntoColorError::IntConversion),
+        }
     }
 }
 
@@ -45,6 +58,21 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        let valid_range = 0..=255;
+        match arr {
+            [a, b, c]
+                if valid_range.contains(&a)
+                    && valid_range.contains(&b)
+                    && valid_range.contains(&c) =>
+            {
+                Ok(Color {
+                    red: a as u8,
+                    green: b as u8,
+                    blue: c as u8,
+                })
+            }
+            _ => return Err(IntoColorError::IntConversion),
+        }
     }
 }
 
@@ -52,6 +80,28 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        let valid_range = 0..=255;
+        // Note: this could have been match on slice length instead
+        match slice {
+            [a, b, c]
+                if valid_range.contains(a)
+                    && valid_range.contains(b)
+                    && valid_range.contains(c) =>
+            {
+                Ok(Color {
+                    red: *a as u8,
+                    green: *b as u8,
+                    blue: *c as u8,
+                })
+            }
+            _ => {
+                let l = slice.len();
+                if l != 3 {
+                    return Err(IntoColorError::BadLen);
+                }
+                return Err(IntoColorError::IntConversion);
+            }
+        }
     }
 }
 
