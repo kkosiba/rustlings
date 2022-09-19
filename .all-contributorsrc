@@ -1569,6 +1569,24 @@
       "contributions": [
         "content"
       ]
+    },
+    {
+      "login": "gasparitiago",
+      "name": "Tiago De Gaspari",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3237254?v=4",
+      "profile": "https://github.com/gasparitiago",
+      "contributions": [
+        "content"
+      ]
+    },
+    {
+      "login": "skaunov",
+      "name": "skaunov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/65976143?v=4",
+      "profile": "https://github.com/skaunov",
+      "contributions": [
+        "content"
+      ]
     }
   ],
   "contributorsPerLine": 8,
@@ -1576,5 +1594,6 @@
   "projectOwner": "rust-lang",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
