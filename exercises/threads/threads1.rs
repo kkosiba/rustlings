@@ -2,8 +2,6 @@
 // Execute `rustlings hint threads1` or use the `hint` watch subcommand for a hint.
 // This program should wait until all the spawned threads have finished before exiting.
 
-// I AM NOT DONE
-
 use std::thread;
 use std::time::Duration;
 
